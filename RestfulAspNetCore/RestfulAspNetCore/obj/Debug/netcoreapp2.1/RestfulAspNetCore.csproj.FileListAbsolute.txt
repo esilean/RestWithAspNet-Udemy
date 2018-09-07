@@ -3,7 +3,6 @@
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/bin/Debug/netcoreapp2.1/RestfulAspNetCore.runtimeconfig.dev.json
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/bin/Debug/netcoreapp2.1/RestfulAspNetCore.dll
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/bin/Debug/netcoreapp2.1/RestfulAspNetCore.pdb
-/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj/Debug/netcoreapp2.1/RestfulAspNetCore.csprojAssemblyReference.cache
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj/Debug/netcoreapp2.1/RestfulAspNetCore.csproj.CoreCompileInputs.cache
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj/Debug/netcoreapp2.1/RestfulAspNetCore.RazorAssemblyInfo.cache
 /Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj/Debug/netcoreapp2.1/RestfulAspNetCore.RazorAssemblyInfo.cs
