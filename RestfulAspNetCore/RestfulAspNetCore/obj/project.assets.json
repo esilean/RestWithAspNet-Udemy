@@ -11506,9 +11506,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.csproj",
-      "projectName": "RestfulAspNetCore",
-      "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.csproj",
+      "projectUniqueName": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
+      "projectName": "RestfulAspNetCore.Services",
+      "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
       "packagesPath": "/Users/leandrobevilaqua/.nuget/packages/",
       "outputPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj",
       "projectStyle": "PackageReference",
