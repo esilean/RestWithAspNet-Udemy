@@ -1,11 +1,12 @@
-﻿namespace RestfulAspNetCore.Application.Model
+﻿using System;
+namespace RestfulAspNetCore.Domain.Entities
 {
-    public class PersonModel
+    public class Person
     {
-
-        public PersonModel()
+        public Person()
         {
         }
+
         public long? Id
         {
             get;

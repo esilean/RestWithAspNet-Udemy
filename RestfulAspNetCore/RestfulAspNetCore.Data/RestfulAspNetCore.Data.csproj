@@ -2,23 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Context\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\ValuesController.cs" />
+    <ProjectReference Include="..\RestfulAspNetCore.Application\RestfulAspNetCore.Application.csproj" />
+    <ProjectReference Include="..\RestfulAspNetCore.Domain\RestfulAspNetCore.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestfulAspNetCore.Application\RestfulAspNetCore.Application.csproj" />
-    <ProjectReference Include="..\RestfulAspNetCore.Data\RestfulAspNetCore.Data.csproj" />
+    <Compile Remove="Repositories\IPersonRepository.cs" />
   </ItemGroup>
 </Project>

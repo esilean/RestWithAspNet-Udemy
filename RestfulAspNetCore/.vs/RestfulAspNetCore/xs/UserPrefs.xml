@@ -1,9 +1,20 @@
 ﻿<Properties StartupConfiguration="{A4447EDD-55E8-4DEA-A40B-58F1A916EF38}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="RestfulAspNetCore.Application/Model/PersonModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RestfulAspNetCore.Application/AutoMapper/ModelToViewModel.cs">
     <Files>
-      <File FileName="RestfulAspNetCore/Controllers/CalculatorController.cs" Line="12" Column="38" />
-      <File FileName="RestfulAspNetCore/Controllers/PersonsController.cs" Line="1" Column="1" />
-      <File FileName="RestfulAspNetCore.Application/Model/PersonModel.cs" Line="1" Column="1" />
+      <File FileName="RestfulAspNetCore.Application/Interfaces/IPersonAppService.cs" Line="8" Column="1" />
+      <File FileName="RestfulAspNetCore.Application/Model/PersonModel.cs" Line="17" Column="17" />
+      <File FileName="RestfulAspNetCore/Controllers/PersonController.cs" Line="56" Column="1" />
+      <File FileName="RestfulAspNetCore.Data/Context/ContextApp.cs" Line="15" Column="25" />
+      <File FileName="RestfulAspNetCore/Properties/launchSettings.json" Line="23" Column="31" />
+      <File FileName="RestfulAspNetCore.Domain/Services/PersonService.cs" Line="41" Column="47" />
+      <File FileName="RestfulAspNetCore.Data/Repositories/PersonRepo.cs" Line="52" Column="10" />
+      <File FileName="RestfulAspNetCore.Application/Services/PersonAppService.cs" Line="27" Column="40" />
+      <File FileName="RestfulAspNetCore.Domain/InterfacesRepo/IPersonRepo.cs" Line="1" Column="1" />
+      <File FileName="RestfulAspNetCore/Startup.cs" Line="44" Column="19" />
+      <File FileName="RestfulAspNetCore/Program.cs" Line="17" Column="1" />
+      <File FileName="RestfulAspNetCore.Domain/Entities/Person.cs" Line="12" Column="17" />
+      <File FileName="RestfulAspNetCore.Application/AutoMapper/ModelToViewModel.cs" Line="12" Column="37" />
+      <File FileName="RestfulAspNetCore.Application/AutoMapper/ViewModelToModel.cs" Line="6" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -11,8 +22,6 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.03_220-_220Domain.RestfulAspNetCore.Domain FirstBuild="True" />
-  <MonoDevelop.Ide.ItemProperties.02_220-_220Application.RestfulAspNetCore.Application FirstBuild="True" />
   <MonoDevelop.Ide.ItemProperties.01_220-_220Services.RestfulAspNetCore.Services PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>
