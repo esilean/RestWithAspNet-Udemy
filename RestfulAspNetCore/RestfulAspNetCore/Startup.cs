@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Services;
@@ -23,6 +25,7 @@ using RestfulAspNetCore.Services.ErrorHandling;
 using System;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RestfulAspNetCore
 {
@@ -46,7 +49,15 @@ namespace RestfulAspNetCore
 
             services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("text/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            })
+            .AddXmlSerializerFormatters()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = ctx => new ValidationErrorDetailResult();
@@ -54,6 +65,11 @@ namespace RestfulAspNetCore
 
             services.AddAutoMapper();
             services.AddApiVersioning();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Restful API With ASP.NET Core 2.0", Version = "V1" });
+            });
 
             //Application
             services.AddScoped<IPersonAppService, PersonAppService>();
@@ -69,6 +85,7 @@ namespace RestfulAspNetCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 
@@ -76,6 +93,7 @@ namespace RestfulAspNetCore
             {
                 //app.UseDeveloperExceptionPage();
 
+#pragma warning disable 1998
                 app.UseExceptionHandler(errorApp =>
                 {
                     errorApp.Run(async context =>
@@ -114,13 +132,25 @@ namespace RestfulAspNetCore
 
                         context.Response.StatusCode = errorDetail.Status.Value;
                         context.Response.WriteJson(errorDetail, "application/problem+json");
+
                     });
                 });
+#pragma warning restore 1998
             }
             else
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.UseHttpsRedirection();
             app.UseMvc();

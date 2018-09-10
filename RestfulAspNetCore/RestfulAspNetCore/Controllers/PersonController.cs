@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
-using RestfulAspNetCore.Services.ErrorHandling;
+using System.Collections.Generic;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,15 +21,21 @@ namespace RestfulAspNetCore.Services.Controllers
             _personAppService = personAppService;
         }
 
-        // GET: api/values
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<PersonModel>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_personAppService.FindAll());
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(PersonModel))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(int id)
         {
             var person = _personAppService.FindById(id);
@@ -43,22 +46,28 @@ namespace RestfulAspNetCore.Services.Controllers
             return Ok(person);
         }
 
-        // POST api/values
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(PersonModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post([FromBody]PersonModel person)
         {
             return new ObjectResult(_personAppService.Add(person));
         }
 
-        // PUT api/values/5
         [HttpPut]
+        [ProducesResponseType(200, Type = typeof(PersonModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put([FromBody]PersonModel person)
         {
             return new ObjectResult(_personAppService.Update(person));
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(int id)
         {
             _personAppService.Remove(id);
