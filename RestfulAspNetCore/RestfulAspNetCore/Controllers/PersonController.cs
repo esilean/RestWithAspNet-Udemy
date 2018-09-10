@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
+using RestfulAspNetCore.Services.ErrorHandling;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,7 @@ namespace RestfulAspNetCore.Services.Controllers
 {
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
+    [ApiController]
     public class PersonController : Controller
     {
 
@@ -31,9 +33,10 @@ namespace RestfulAspNetCore.Services.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public IActionResult Get(int id)
         {
             var person = _personAppService.FindById(id);
+
             if (person == null)
                 return NotFound();
 
@@ -44,27 +47,21 @@ namespace RestfulAspNetCore.Services.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]PersonModel person)
         {
-            if (person == null)
-                return BadRequest();
-                
-            return new ObjectResult(_personAppService.Create(person));
+            return new ObjectResult(_personAppService.Add(person));
         }
 
         // PUT api/values/5
         [HttpPut]
         public IActionResult Put([FromBody]PersonModel person)
         {
-            if (person == null)
-                return BadRequest();
-
             return new ObjectResult(_personAppService.Update(person));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(int id)
         {
-            _personAppService.Delete(id);
+            _personAppService.Remove(id);
             return NoContent();
         }
     }

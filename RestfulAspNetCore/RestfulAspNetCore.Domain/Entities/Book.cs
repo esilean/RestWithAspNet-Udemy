@@ -8,12 +8,11 @@ namespace RestfulAspNetCore.Domain.Entities
     {
         public Book()
         {
-            Id = Guid.NewGuid().ToString();
+            
         }
 
         [Key]
-        [Column("id")]
-        public string Id
+        public int? Id
         {
             get;
             set;

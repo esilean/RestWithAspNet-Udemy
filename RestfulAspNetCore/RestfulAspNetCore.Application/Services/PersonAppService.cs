@@ -6,33 +6,37 @@ using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
 using RestfulAspNetCore.Domain.Entities;
 using RestfulAspNetCore.Domain.Interfaces;
+using RestfulAspNetCore.Domain.InterfacesRepo;
 using RestfulAspNetCore.Domain.Services;
 
 namespace RestfulAspNetCore.Application.Services
 {
-    public class PersonAppService : IPersonAppService
+    public class PersonAppService : AppService, IPersonAppService
     {
 
         private readonly IMapper _mapper;
-        private IPersonService _personService;
+        private readonly IPersonService _personService;
 
-        public PersonAppService(IMapper mapper, IPersonService personService)
+        public PersonAppService(IMapper mapper, IPersonService personService, IUnitOfWork uow) : base(uow)
         {
             _personService = personService;
             _mapper = mapper;
         }
 
-        public PersonModel Create(PersonModel person)
+        public PersonModel Add(PersonModel person)
         {
             var p = _mapper.Map<Person>(person);
-            _personService.Create(p);
+            _personService.Add(p);
+
+            Commit();
 
             return _mapper.Map<PersonModel>(p);
         }
 
-        public void Delete(long id)
+        public void Remove(int id)
         {
-            _personService.Delete(id);
+            _personService.Remove(id);
+            Commit();
         }
 
         public List<PersonModel> FindAll()
@@ -41,24 +45,9 @@ namespace RestfulAspNetCore.Application.Services
             var persons = _personService.FindAll();
 
             return _mapper.Map<List<PersonModel>>(persons);
-
-            //var personModelList = new List<PersonModel>();
-            //foreach (var p in persons)
-            //{
-            //    personModelList.Add(new PersonModel
-            //    {
-            //        Id = p.Id,
-            //        FirstName = p.FirstName,
-            //        LastName = p.LastName,
-            //        Address = p.Address,
-            //        Gender = p.Gender
-            //    });
-            //}
-
-            //return personModelList;
         }
 
-        public PersonModel FindById(long id)
+        public PersonModel FindById(int id)
         {
             var person = _personService.FindById(id);
             return _mapper.Map<PersonModel>(person);
@@ -68,7 +57,13 @@ namespace RestfulAspNetCore.Application.Services
         {
             var p = _mapper.Map<Person>(person);
             _personService.Update(p);
+            Commit();
             return _mapper.Map<PersonModel>(p);
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
 
     }

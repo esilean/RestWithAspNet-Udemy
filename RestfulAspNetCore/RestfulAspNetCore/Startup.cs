@@ -1,19 +1,28 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Services;
 using RestfulAspNetCore.Data.Context;
 using RestfulAspNetCore.Data.Repositories;
+using RestfulAspNetCore.Data.UoW;
 using RestfulAspNetCore.Domain.Interfaces;
 using RestfulAspNetCore.Domain.InterfacesRepo;
 using RestfulAspNetCore.Domain.Services;
+using RestfulAspNetCore.Services.ErrorHandling;
+using System;
+using System.Reflection;
+using System.Text;
 
 namespace RestfulAspNetCore
 {
@@ -30,8 +39,6 @@ namespace RestfulAspNetCore
             _enviroment = enviroment;
         }
 
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -39,29 +46,11 @@ namespace RestfulAspNetCore
 
             services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
 
-            //if(_enviroment.IsDevelopment())
-            //{
-            //    try
-            //    {
-            //        var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
-
-            //        var evolve = new Evolve.Evolve("evolve.json", evolveConnection, msg => _logger.LogInformation(msg))
-            //        {
-            //            Locations = new List<string> { "db/migrations"},
-            //            IsEraseDisabled = true,
-            //        };
-
-            //        evolve.Migrate();
-
-            //    }
-            //    catch (System.Exception ex)
-            //    {
-            //        _logger.LogCritical("Database migration failed.", ex);
-            //        throw;
-            //    }
-            //}
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = ctx => new ValidationErrorDetailResult();
+            });
 
             services.AddAutoMapper();
             services.AddApiVersioning();
@@ -75,14 +64,58 @@ namespace RestfulAspNetCore
             //Data
             services.AddScoped<IPersonRepo, PersonRepo>();
             services.AddScoped<IBookRepo, BookRepo>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        var exception = errorFeature.Error;
+
+                        //var errorExp = env.IsDevelopment()
+                        //? exception.ToString()
+                        //: "A instancia deve ser usado para auxiliar no envio das info para o suporte.";
+
+                        //Init
+                        var errorDetail = new ErrorDetail
+                        {
+                            Instance = $"urn:bevixy:error:{Guid.NewGuid()}"
+                        };
+
+                        if (exception is BadHttpRequestException badHttpRequestException)
+                        {
+                            errorDetail.Title = "Solicitação inválida!";
+                            errorDetail.Status = (int)typeof(BadHttpRequestException).GetProperty("StatusCode", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(badHttpRequestException);
+                            errorDetail.Detail = badHttpRequestException.Message;
+                            errorDetail.StackTrace = "";
+                            errorDetail.InnerMessage = "";
+                        }
+                        else
+                        {
+                            errorDetail.Title = "Ocorreu um erro inesperado!";
+                            errorDetail.Status = 500;
+                            errorDetail.Detail = exception.Message.ToString();
+                            errorDetail.StackTrace = exception.ToString();
+                            errorDetail.InnerMessage = (exception.InnerException != null) ? exception.InnerException.Message : "";
+                        }
+
+                        // log the exception etc..
+
+                        context.Response.StatusCode = errorDetail.Status.Value;
+                        context.Response.WriteJson(errorDetail, "application/problem+json");
+                    });
+                });
             }
             else
             {
@@ -91,6 +124,29 @@ namespace RestfulAspNetCore
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+    }
+}
+
+public static class HttpExtensions
+{
+    private static readonly JsonSerializer Serializer = new JsonSerializer
+    {
+        NullValueHandling = NullValueHandling.Ignore
+    };
+
+    public static void WriteJson<T>(this HttpResponse response, T obj, string contentType = null)
+    {
+        response.ContentType = contentType ?? "application/json";
+        using (var writer = new HttpResponseStreamWriter(response.Body, Encoding.UTF8))
+        {
+            using (var jsonWriter = new JsonTextWriter(writer))
+            {
+                jsonWriter.CloseOutput = false;
+                jsonWriter.AutoCompleteOnClose = false;
+
+                Serializer.Serialize(jsonWriter, obj);
+            }
         }
     }
 }

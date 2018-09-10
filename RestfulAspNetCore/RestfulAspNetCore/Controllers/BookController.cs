@@ -12,6 +12,7 @@ namespace RestfulAspNetCore.Services.Controllers
 {
     [ApiVersion("1")]
     [Route("api/[controller]/v{version:apiVersion}")]
+    [ApiController]
     public class BookController : Controller
     {
         private IBookAppService _bookAppService;
@@ -30,7 +31,7 @@ namespace RestfulAspNetCore.Services.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             var book = _bookAppService.FindById(id);
             if (book == null)
@@ -43,27 +44,21 @@ namespace RestfulAspNetCore.Services.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]BookModel book)
         {
-            if (book == null)
-                return BadRequest();
-
-            return new ObjectResult(_bookAppService.Create(book));
+            return new ObjectResult(_bookAppService.Add(book));
         }
 
         // PUT api/values/5
         [HttpPut]
         public IActionResult Put([FromBody]BookModel book)
         {
-            if (book == null)
-                return BadRequest();
-
             return new ObjectResult(_bookAppService.Update(book));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
-            _bookAppService.Delete(id);
+            _bookAppService.Remove(id);
             return NoContent();
         }
     }

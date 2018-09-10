@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using RestfulAspNetCore.Domain.Entities;
+﻿using RestfulAspNetCore.Domain.Entities;
 
 namespace RestfulAspNetCore.Domain.InterfacesRepo
 {
-    public interface IPersonRepo
+    public interface IPersonRepo : IRepo<Person>
     {
-        Person Create(Person person);
-        Person FindById(long id);
-        List<Person> FindAll();
-        Person Update(Person person);
-        void Delete(long id);
+        Person FindByName(string firstName);
     }
 }

@@ -4,12 +4,12 @@ using RestfulAspNetCore.Domain.Entities;
 
 namespace RestfulAspNetCore.Domain.Interfaces
 {
-    public interface IPersonService
+    public interface IPersonService : IDisposable
     {
-        Person Create(Person person);
-        Person FindById(long id);
+        Person Add(Person person);
+        Person FindById(int id);
         List<Person> FindAll();
         Person Update(Person person);
-        void Delete(long id);
+        void Remove(int id);
     }
 }

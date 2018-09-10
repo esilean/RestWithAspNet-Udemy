@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RestfulAspNetCore.Application.Model;
 
 namespace RestfulAspNetCore.Application.Interfaces
 {
-    public interface IBookAppService
+    public interface IBookAppService : IDisposable
     {
-        BookModel Create(BookModel book);
-        BookModel FindById(string id);
+        BookModel Add(BookModel book);
+        BookModel FindById(int id);
         List<BookModel> FindAll();
         BookModel Update(BookModel book);
-        void Delete(string id);
+        void Remove(int id);
     }
 }

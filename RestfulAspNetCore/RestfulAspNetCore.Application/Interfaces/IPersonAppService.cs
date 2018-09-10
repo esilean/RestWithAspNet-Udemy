@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RestfulAspNetCore.Application.Model;
 
 namespace RestfulAspNetCore.Application.Interfaces
 {
-    public interface IPersonAppService
+    public interface IPersonAppService : IDisposable
     {
-        PersonModel Create(PersonModel person);
-        PersonModel FindById(long id);
+        PersonModel Add(PersonModel person);
+        PersonModel FindById(int id);
         List<PersonModel> FindAll();
         PersonModel Update(PersonModel person);
-        void Delete(long id);
+        void Remove(int id);
     }
 }

@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using RestfulAspNetCore.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RestfulAspNetCore.Domain.InterfacesRepo
 {
-    public interface IRepo<T> where T : class
+    public interface IRepo<T> : IDisposable where T : class
     {
-        T Create(T entity);
-        T FindById(string id);
+        T Add(T entity);
+        T FindById(int id);
         List<T> FindAll();
-        T Update(T entity);
-        void Delete(string id);
+        T Update(T obj);
+        void Remove(int id);
+        int SaveChanges();
     }
 }

@@ -16,14 +16,14 @@ namespace RestfulAspNetCore.Domain.Services
             _bookRepo = bookRepo;
         }
 
-        public Book Create(Book book)
+        public Book Add(Book book)
         {
-            return _bookRepo.Create(book);
+            return _bookRepo.Add(book);
         }
 
-        public void Delete(string id)
+        public void Remove(int id)
         {
-            _bookRepo.Delete(id);
+            _bookRepo.Remove(id);
         }
 
         public List<Book> FindAll()
@@ -31,7 +31,7 @@ namespace RestfulAspNetCore.Domain.Services
             return _bookRepo.FindAll();
         }
 
-        public Book FindById(string id)
+        public Book FindById(int id)
         {
             return _bookRepo.FindById(id);
         }
@@ -39,6 +39,11 @@ namespace RestfulAspNetCore.Domain.Services
         public Book Update(Book book)
         {
             return _bookRepo.Update(book);
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

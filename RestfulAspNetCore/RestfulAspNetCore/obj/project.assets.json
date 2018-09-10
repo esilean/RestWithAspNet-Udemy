@@ -11876,38 +11876,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/leandrobevilaqua/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\leandro.bevilaqua\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
+      "projectUniqueName": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\RestfulAspNetCore.Services.csproj",
       "projectName": "RestfulAspNetCore.Services",
-      "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
-      "packagesPath": "/Users/leandrobevilaqua/.nuget/packages/",
-      "outputPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj",
+      "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\RestfulAspNetCore.Services.csproj",
+      "packagesPath": "C:\\Users\\leandro.bevilaqua\\.nuget\\packages\\",
+      "outputPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/leandrobevilaqua/.config/NuGet/NuGet.Config"
+        "C:\\Users\\leandro.bevilaqua\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Application/RestfulAspNetCore.Application.csproj": {
-              "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Application/RestfulAspNetCore.Application.csproj"
+            "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Application\\RestfulAspNetCore.Application.csproj": {
+              "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Application\\RestfulAspNetCore.Application.csproj"
             },
-            "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Data/RestfulAspNetCore.Data.csproj": {
-              "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Data/RestfulAspNetCore.Data.csproj"
+            "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Data\\RestfulAspNetCore.Data.csproj": {
+              "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Data\\RestfulAspNetCore.Data.csproj"
             }
           }
         }
@@ -11924,21 +11926,21 @@
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.1.1"
+            "version": "[2.1.1, )",
+            "autoReferenced": true
           },
           "Microsoft.AspNetCore.Mvc.Versioning": {
             "target": "Package",
-            "version": "2.3.0"
+            "version": "[2.3.0, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.1.0, )",
+            "autoReferenced": true
           },
           "MySql.Data": {
             "target": "Package",
-            "version": "8.0.12"
-          },
-          "Microsoft.NETCore.App": {
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "2.1.0",
-            "autoReferenced": true
+            "version": "[8.0.12, )"
           }
         },
         "imports": [

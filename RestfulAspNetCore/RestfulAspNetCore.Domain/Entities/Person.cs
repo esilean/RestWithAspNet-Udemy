@@ -7,7 +7,7 @@ namespace RestfulAspNetCore.Domain.Entities
         {
         }
 
-        public long? Id
+        public int? Id
         {
             get;
             set;

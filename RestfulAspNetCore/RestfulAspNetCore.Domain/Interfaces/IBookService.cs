@@ -4,12 +4,12 @@ using RestfulAspNetCore.Domain.Entities;
 
 namespace RestfulAspNetCore.Domain.Interfaces
 {
-    public interface IBookService
+    public interface IBookService : IDisposable
     {
-        Book Create(Book book);
-        Book FindById(string id);
+        Book Add(Book book);
+        Book FindById(int id);
         List<Book> FindAll();
         Book Update(Book book);
-        void Delete(string id);
+        void Remove(int id);
     }
 }

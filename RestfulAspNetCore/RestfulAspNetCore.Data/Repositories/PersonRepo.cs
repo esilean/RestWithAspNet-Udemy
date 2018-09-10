@@ -1,72 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using RestfulAspNetCore.Data.Context;
 using RestfulAspNetCore.Domain.Entities;
 using RestfulAspNetCore.Domain.InterfacesRepo;
 
 namespace RestfulAspNetCore.Data.Repositories
 {
-    public class PersonRepo : IPersonRepo
+    public class PersonRepo : Repository<Person>, IPersonRepo
     {
 
-        private ContextApp _context;
+        public PersonRepo(ContextApp context) : base(context) { }
 
-        public PersonRepo(ContextApp context)
+        public Person FindByName(string firstName)
         {
-            _context = context;
+            return DbSet.AsNoTracking().FirstOrDefault(c => c.FirstName == firstName);
         }
 
-        public Person Create(Person person)
-        {
-            try
-            {
-                _context.Add(person);
-                _context.SaveChanges();
+        //public Person Update(Person person)
+        //{
 
-                return person;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //    var result = FindById((long)person.Id);
 
-        public void Delete(long id)
-        {
-            _context.Remove(FindById(id));
-            _context.SaveChanges();
-        }
+        //    if (result == null)
+        //        return new Person();
 
-        public List<Person> FindAll()
-        {
-            return _context.Persons.ToList();
-        }
+        //    try
+        //    {
+        //        _context.Entry(result).CurrentValues.SetValues(person);
+        //        _context.SaveChanges();
 
-        public Person FindById(long id)
-        {
-            return _context.Persons.Find(id);
-        }
+        //        return person;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public Person Update(Person person)
-        {
-
-            var result = FindById((long)person.Id);
-
-            if (result == null)
-                return new Person();
-
-            try
-            {
-                _context.Entry(result).CurrentValues.SetValues(person);
-                _context.SaveChanges();
-
-                return person;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }
