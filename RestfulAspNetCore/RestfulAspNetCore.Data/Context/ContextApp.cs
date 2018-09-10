@@ -13,6 +13,7 @@ namespace RestfulAspNetCore.Data.Context
         public ContextApp(DbContextOptions<ContextApp> options) : base(options) { }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Book> Books { get; set; }
 
 
     }

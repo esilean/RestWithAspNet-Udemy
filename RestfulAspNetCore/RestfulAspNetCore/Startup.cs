@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Services;
 using RestfulAspNetCore.Data.Context;
@@ -17,34 +19,62 @@ namespace RestfulAspNetCore
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger _logger;
+        public IConfiguration _configuration { get; }
+        public IHostingEnvironment _enviroment { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment enviroment, ILogger<Startup> logger)
         {
-            Configuration = configuration;
+            _logger = logger;
+            _configuration = configuration;
+            _enviroment = enviroment;
         }
 
-        public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["MySqlConnection:MySqlConnectionString"];
+            var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
 
-            services.AddDbContext<ContextApp>(options => options.UseMySql(connection));
+            services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
 
-            services.AddAutoMapper();
+            //if(_enviroment.IsDevelopment())
+            //{
+            //    try
+            //    {
+            //        var evolveConnection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+
+            //        var evolve = new Evolve.Evolve("evolve.json", evolveConnection, msg => _logger.LogInformation(msg))
+            //        {
+            //            Locations = new List<string> { "db/migrations"},
+            //            IsEraseDisabled = true,
+            //        };
+
+            //        evolve.Migrate();
+
+            //    }
+            //    catch (System.Exception ex)
+            //    {
+            //        _logger.LogCritical("Database migration failed.", ex);
+            //        throw;
+            //    }
+            //}
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddAutoMapper();
             services.AddApiVersioning();
 
             //Application
             services.AddScoped<IPersonAppService, PersonAppService>();
-
+            services.AddScoped<IBookAppService, BookAppService>();
             //Domain
             services.AddScoped<IPersonService, PersonService>();
-
+            services.AddScoped<IBookService, BookService>();
             //Data
             services.AddScoped<IPersonRepo, PersonRepo>();
+            services.AddScoped<IBookRepo, BookRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

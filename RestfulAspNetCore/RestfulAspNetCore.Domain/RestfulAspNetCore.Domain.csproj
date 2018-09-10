@@ -19,5 +19,6 @@
 
   <ItemGroup>
     <Compile Remove="Persons.cs" />
+    <Compile Remove="InterfacesRepo\IBookRepo %28copiar%29.cs" />
   </ItemGroup>
 </Project>

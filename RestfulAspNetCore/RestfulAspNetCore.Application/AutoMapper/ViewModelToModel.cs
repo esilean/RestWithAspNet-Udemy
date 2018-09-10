@@ -10,6 +10,7 @@ namespace RestfulAspNetCore.Application.AutoMapper
         public ViewModelToModel()
         {
             CreateMap<PersonModel, Person>();
+            CreateMap<BookModel, Book>();
         }
     }
 }

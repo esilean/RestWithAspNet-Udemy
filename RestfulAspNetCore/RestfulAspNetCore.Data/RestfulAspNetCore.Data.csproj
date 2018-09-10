@@ -9,6 +9,7 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Context\" />
     <Folder Include="Repositories\" />
+    <Folder Include="db\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,4 +24,12 @@
   <ItemGroup>
     <Compile Remove="Repositories\IPersonRepository.cs" />
   </ItemGroup>
+
+    <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'MySqlConnector'">
+        <Aliases>MySqlConnectorAlias</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>
 </Project>
