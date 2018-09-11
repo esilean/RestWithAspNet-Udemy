@@ -5,12 +5,13 @@ using RestfulAspNetCore.Domain.Entities;
 
 namespace RestfulAspNetCore.Application.AutoMapper
 {
-	public class ViewModelToModel : Profile
+    public class ViewModelToModel : Profile
     {
         public ViewModelToModel()
         {
             CreateMap<PersonModel, Person>();
             CreateMap<BookModel, Book>();
+            CreateMap<UserLoginModel, User>();
         }
     }
 }

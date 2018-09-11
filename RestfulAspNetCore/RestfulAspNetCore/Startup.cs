@@ -72,12 +72,15 @@ namespace RestfulAspNetCore
             });
 
             //Application
+            services.AddScoped<IUserAppService, UserAppService>();
             services.AddScoped<IPersonAppService, PersonAppService>();
             services.AddScoped<IBookAppService, BookAppService>();
             //Domain
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IBookService, BookService>();
             //Data
+            services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IPersonRepo, PersonRepo>();
             services.AddScoped<IBookRepo, BookRepo>();
 
