@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using RestfulAspNetCore.Application.Interfaces;
@@ -48,6 +51,9 @@ namespace RestfulAspNetCore
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
 
             services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
+
+            //configure the jwt   
+            ConfigureJwtAuthService(services);
 
             services.AddMvc(options =>
             {
@@ -87,8 +93,54 @@ namespace RestfulAspNetCore
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureJwtAuthService(IServiceCollection services)
+        {
 
+            var audienceConfig = _configuration.GetSection("Audience");
+            var symmetricKeyAsBase64 = audienceConfig["Secret"];
+            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
+
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!  
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim  
+                ValidateIssuer = true,
+                ValidIssuer = audienceConfig["Iss"],
+
+                // Validate the JWT Audience (aud) claim  
+                ValidateAudience = true,
+                ValidAudience = audienceConfig["Aud"],
+
+                // Validate the token expiry  
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = tokenValidationParameters;
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+        }
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 
@@ -154,6 +206,8 @@ namespace RestfulAspNetCore
             var option = new RewriteOptions();
             option.AddRedirect("^$", "swagger");
             app.UseRewriter(option);
+
+            //app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();

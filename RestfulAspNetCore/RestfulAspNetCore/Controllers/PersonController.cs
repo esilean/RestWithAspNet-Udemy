@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace RestfulAspNetCore.Services.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_personAppService.FindAll());

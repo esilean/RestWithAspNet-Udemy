@@ -24,6 +24,9 @@ namespace RestfulAspNetCore.Application.Model
         [Required]
         public string ClientSecret { get; set; }
 
+        [Required]
+        public string Grant_type { get; set; }
+
         public string RefreshToken { get; set; }
 
     }

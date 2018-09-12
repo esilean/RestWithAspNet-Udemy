@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
+using RestfulAspNetCore.Services.ErrorHandling;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +17,7 @@ namespace RestfulAspNetCore.Services.Controllers
     [ApiController]
     public class AuthController : Controller
     {
+        //private IOptions<Audience> _settings;
         private IUserAppService _userAppService;
 
         public AuthController(IUserAppService userAppService)
@@ -28,8 +31,31 @@ namespace RestfulAspNetCore.Services.Controllers
         public IActionResult Post([FromBody]UserLoginModel loginModel)
         {
 
-            return Ok();
+            if (loginModel.Grant_type == "password")
+            {
+                //return new OkResult(DoPassword(parameters));
+                return Ok();
+            }
+            else if (loginModel.Grant_type == "refresh_token")
+            {
+                //return new OkObjectResult(DoRefreshToken(parameters));
+                return Ok();
+            }
+            else
+            {
+                // validar errorDetail
+                return new BadRequestObjectResult(new ErrorDetail
+                {
+                    Title = "",
+                    Status = 400,
+                    Detail = "!",
+                    InnerMessage = "",
+                    Instance = ""
+                });
+            }
+
         }
+
 
 
     }
