@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.WebUtilities;
@@ -51,12 +53,22 @@ namespace RestfulAspNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
-
             services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
+
             services.AddCors();
 
-            //configure the jwt   
+            //controle de autenticacao
             ConfigureJwtAuthService(services);
+
+            //helper para paginacao
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper>(factory =>
+            {
+                var actionContext = factory.GetService<IActionContextAccessor>()
+                                           .ActionContext;
+                return new UrlHelper(actionContext);
+            });
+
 
             services.AddMvc(options =>
             {
@@ -226,7 +238,8 @@ namespace RestfulAspNetCore
                 .AllowCredentials());
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

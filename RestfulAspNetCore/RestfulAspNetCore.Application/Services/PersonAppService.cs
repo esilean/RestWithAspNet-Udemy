@@ -4,6 +4,7 @@ using System.Threading;
 using AutoMapper;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
+using RestfulAspNetCore.Application.Model.Pagination;
 using RestfulAspNetCore.Domain.Entities;
 using RestfulAspNetCore.Domain.Interfaces;
 using RestfulAspNetCore.Domain.InterfacesRepo;
@@ -23,20 +24,20 @@ namespace RestfulAspNetCore.Application.Services
             _mapper = mapper;
         }
 
-        public PersonModel Add(PersonModel person)
+
+        public PagedList<PersonModel> FindWithPageSearch(PagingParams pagingParams)
         {
-            var p = _mapper.Map<Person>(person);
-            _personService.Add(p);
+            var persons = _personService.FindAll();
+            var personsModel = _mapper.Map<List<PersonModel>>(persons);
 
-            Commit();
-
-            return _mapper.Map<PersonModel>(p);
+            return new PagedList<PersonModel>(personsModel, pagingParams.PageNumber, pagingParams.PageSize);
         }
 
-        public void Remove(int id)
+        public List<PersonModel> FindByName(string firstName, string lastName)
         {
-            _personService.Remove(id);
-            Commit();
+            var persons = _personService.FindByName(firstName, lastName);
+
+            return _mapper.Map<List<PersonModel>>(persons);
         }
 
         public List<PersonModel> FindAll()
@@ -53,6 +54,22 @@ namespace RestfulAspNetCore.Application.Services
             return _mapper.Map<PersonModel>(person);
         }
 
+        public PersonModel Add(PersonModel person)
+        {
+            var p = _mapper.Map<Person>(person);
+            _personService.Add(p);
+
+            Commit();
+
+            return _mapper.Map<PersonModel>(p);
+        }
+
+        public void Remove(int id)
+        {
+            _personService.Remove(id);
+            Commit();
+        }
+
         public PersonModel Update(PersonModel person)
         {
             var p = _mapper.Map<Person>(person);
@@ -65,6 +82,7 @@ namespace RestfulAspNetCore.Application.Services
         {
             GC.SuppressFinalize(this);
         }
+
 
     }
 }

@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
+using RestfulAspNetCore.Application.Model.Pagination;
+using RestfulAspNetCore.Services.PaginationConfig;
+using RestfulAspNetCore.Services.PaginationConfig.PersonPage;
 using System.Collections.Generic;
 
 
@@ -15,11 +18,13 @@ namespace RestfulAspNetCore.Services.Controllers
     public class PersonController : Controller
     {
 
-        private IPersonAppService _personAppService;
+        private readonly IPersonAppService _personAppService;
+        private readonly IUrlHelper _urlHelper;
 
-        public PersonController(IPersonAppService personAppService)
+        public PersonController(IPersonAppService personAppService, IUrlHelper urlHelper)
         {
             _personAppService = personAppService;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet]
@@ -31,6 +36,45 @@ namespace RestfulAspNetCore.Services.Controllers
         public IActionResult Get()
         {
             return Ok(_personAppService.FindAll());
+        }
+
+        [HttpGet("Paging")]
+        [ProducesResponseType(200, Type = typeof(List<PersonModel>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult Paging(PagingParams pagingParams)
+        {
+            var persons = _personAppService.FindWithPageSearch(pagingParams);
+
+
+            var l = new LinkInfo
+            {
+                Href = _urlHelper.Link("Paging", new { PageNumber = pagingParams.PageNumber, PageSize = pagingParams.PageSize }),
+                Rel = "",
+                Method = ""
+            };
+
+
+            Response.Headers.Add("X-Pagination", persons.GetHeader().ToJson());
+
+            var personPageModel = new PersonPageModel
+            {
+                Paging = persons.GetHeader(),
+                Links = PageLink<PersonModel>.GetLinks(_urlHelper, "Paging", persons),
+                Items = persons._list
+            };
+            return Ok(personPageModel);
+        }
+
+        [HttpGet("findbyname")]
+        [ProducesResponseType(200, Type = typeof(List<PersonModel>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult GetByName([FromQuery] string firstName, [FromQuery] string lastName)
+        {
+            return Ok(_personAppService.FindByName(firstName, lastName));
         }
 
         [HttpGet("{id}")]
@@ -62,6 +106,15 @@ namespace RestfulAspNetCore.Services.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         public IActionResult Put([FromBody]PersonModel person)
+        {
+            return new ObjectResult(_personAppService.Update(person));
+        }
+
+        [HttpPatch]
+        [ProducesResponseType(200, Type = typeof(PersonModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult Patch([FromBody]PersonModel person)
         {
             return new ObjectResult(_personAppService.Update(person));
         }

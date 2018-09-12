@@ -13,9 +13,16 @@ namespace RestfulAspNetCore.Data.Repositories
 
         public PersonRepo(ContextApp context) : base(context) { }
 
-        public Person FindByName(string firstName)
+        public List<Person> FindByName(string firstName, string lastName)
         {
-            return DbSet.AsNoTracking().FirstOrDefault(c => c.FirstName == firstName);
+            if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+                return DbSet.AsNoTracking().Where(p => p.FirstName.Contains(firstName) && p.LastName.Contains(lastName)).ToList();
+            else if (!string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName))
+                return DbSet.AsNoTracking().Where(p => p.FirstName.Contains(firstName)).ToList();
+            else if (string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+                return DbSet.AsNoTracking().Where(p => p.LastName.Contains(lastName)).ToList();
+            else
+                return DbSet.AsNoTracking().ToList();
         }
 
         //public Person Update(Person person)

@@ -19,6 +19,11 @@ namespace RestfulAspNetCore.Data.Repositories
             DbSet = Db.Set<T>();
         }
 
+        public List<T> FindWithPageSearch(string query)
+        {
+            return DbSet.FromSql<T>(query).ToList();
+        }
+
         public virtual List<T> FindAll()
         {
             return DbSet.ToList();

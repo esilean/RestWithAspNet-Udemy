@@ -16,14 +16,14 @@ namespace RestfulAspNetCore.Domain.Services
             _personRepo = personRepo;
         }
 
-        public Person Add(Person person)
+        public List<Person> FindWithPageSearch(string query)
         {
-            return _personRepo.Add(person);
+            return _personRepo.FindWithPageSearch(query);
         }
 
-        public void Remove(int id)
+        public List<Person> FindByName(string firstName, string lastName)
         {
-            _personRepo.Remove(id);
+            return _personRepo.FindByName(firstName, lastName);
         }
 
         public List<Person> FindAll()
@@ -36,6 +36,16 @@ namespace RestfulAspNetCore.Domain.Services
             return _personRepo.FindById(id);
         }
 
+        public Person Add(Person person)
+        {
+            return _personRepo.Add(person);
+        }
+
+        public void Remove(int id)
+        {
+            _personRepo.Remove(id);
+        }
+
         public Person Update(Person person)
         {
             return _personRepo.Update(person);
@@ -45,5 +55,7 @@ namespace RestfulAspNetCore.Domain.Services
         {
             GC.SuppressFinalize(this);
         }
+
+
     }
 }

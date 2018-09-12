@@ -11,5 +11,7 @@ namespace RestfulAspNetCore.Domain.InterfacesRepo
         T Update(T obj);
         void Remove(int id);
         int SaveChanges();
+
+        List<T> FindWithPageSearch(string query);
     }
 }
