@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestfulAspNetCore.Application.Model
 {
-    public class UserLoginModel
+    public class UserModel
     {
-        public UserLoginModel()
+        public UserModel()
         {
 
         }
@@ -15,15 +15,12 @@ namespace RestfulAspNetCore.Application.Model
         [Required]
         public string Email { get; set; }
 
+        [Required]
         public string Password { get; set; }
 
         [Required]
         public string ClientSecret { get; set; }
 
-        [Required]
-        public string Grant_type { get; set; }
-
-        public string Refresh_token { get; set; }
 
     }
 }

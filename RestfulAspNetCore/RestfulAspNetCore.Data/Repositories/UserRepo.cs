@@ -6,21 +6,32 @@ using System.Linq;
 
 namespace RestfulAspNetCore.Data.Repositories
 {
-    public class UserRepo : IUserRepo
+    public class UserRepo : Repository<User>, IUserRepo
     {
 
-        protected readonly ContextApp Db;
-        protected readonly DbSet<User> DbSet;
-
-        public UserRepo(ContextApp context)
-        {
-            Db = context;
-            DbSet = Db.Set<User>();
-        }
+        public UserRepo(ContextApp context) : base(context) { }
 
         public User GetByEmail(string email)
         {
             return DbSet.Find(email);
+        }
+
+        public User GetByEmailAndRefreshToken(string email, string refreshToken)
+        {
+            var user = GetByEmail(email);
+
+            if (user != null)
+            {
+                if (user.RefreshToken == refreshToken)
+                    return user;
+            }
+
+            return null;
+        }
+
+        public void Remove(string email)
+        {
+            DbSet.Remove(GetByEmail(email));
         }
     }
 }

@@ -12,6 +12,8 @@ namespace RestfulAspNetCore.Application.AutoMapper
             CreateMap<PersonModel, Person>();
             CreateMap<BookModel, Book>();
             CreateMap<UserLoginModel, User>();
+
+            CreateMap<UserModel, User>();
         }
     }
 }

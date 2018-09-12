@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RestfulAspNetCore.Domain\RestfulAspNetCore.Domain.csproj" />
+    <ProjectReference Include="..\RestfulAspNetCore.Helper\RestfulAspNetCore.Helper.csproj" />
   </ItemGroup>
 </Project>

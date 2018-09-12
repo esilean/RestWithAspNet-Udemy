@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `PasswordHash` varchar(100) not null,
     `ClientId` varchar(100) not null,
     `ClientSecret` varchar(32) not null,
-    `RefreshToken` varchar(100) not null,
+    `RefreshToken` varchar(100) null,
     `Created` datetime(6) not null,
     `IsActive` bit not null,
     

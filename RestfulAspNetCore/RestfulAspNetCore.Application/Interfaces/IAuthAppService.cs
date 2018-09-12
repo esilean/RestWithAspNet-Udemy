@@ -3,8 +3,9 @@ using System;
 
 namespace RestfulAspNetCore.Application.Interfaces
 {
-    public interface IUserAppService : IDisposable
+    public interface IAuthAppService : IDisposable
     {
-        UserModel Add(UserModel userModel);
+
+        TokenResponseModel Auth(UserLoginModel userLoginModel);
     }
 }

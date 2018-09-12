@@ -13,9 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using RestfulAspNetCore.Application.Configuration.Token;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Services;
 using RestfulAspNetCore.Data.Context;
@@ -51,6 +53,7 @@ namespace RestfulAspNetCore
             var connectionString = _configuration["MySqlConnection:MySqlConnectionString"];
 
             services.AddDbContext<ContextApp>(options => options.UseMySql(connectionString));
+            services.AddCors();
 
             //configure the jwt   
             ConfigureJwtAuthService(services);
@@ -78,6 +81,7 @@ namespace RestfulAspNetCore
             });
 
             //Application
+            services.AddScoped<IAuthAppService, AuthAppService>();
             services.AddScoped<IUserAppService, UserAppService>();
             services.AddScoped<IPersonAppService, PersonAppService>();
             services.AddScoped<IBookAppService, BookAppService>();
@@ -96,25 +100,29 @@ namespace RestfulAspNetCore
         public void ConfigureJwtAuthService(IServiceCollection services)
         {
 
-            var audienceConfig = _configuration.GetSection("Audience");
-            var symmetricKeyAsBase64 = audienceConfig["Secret"];
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            var signingKey = new SymmetricSecurityKey(keyByteArray);
+            var tokenConfigurations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                _configuration.GetSection("TokenConfig")
+            )
+            .Configure(tokenConfigurations);
+            services.AddSingleton(tokenConfigurations);
 
+            var signingConfigurations = new SigningConfigurations(tokenConfigurations.Secret);
+            services.AddSingleton(signingConfigurations);
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 // The signing key must match!  
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
+                IssuerSigningKey = signingConfigurations.Key,
 
                 // Validate the JWT Issuer (iss) claim  
                 ValidateIssuer = true,
-                ValidIssuer = audienceConfig["Iss"],
+                ValidIssuer = tokenConfigurations.Issuer,
 
                 // Validate the JWT Audience (aud) claim  
                 ValidateAudience = true,
-                ValidAudience = audienceConfig["Aud"],
+                ValidAudience = tokenConfigurations.Audience,
 
                 // Validate the token expiry  
                 ValidateLifetime = true,
@@ -132,12 +140,13 @@ namespace RestfulAspNetCore
                 o.TokenValidationParameters = tokenValidationParameters;
             });
 
-            services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
-                    .RequireAuthenticatedUser().Build());
-            });
+            //[Authorize("Bearer")]
+            //services.AddAuthorization(auth =>
+            //{
+            //    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+            //        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+            //        .RequireAuthenticatedUser().Build());
+            //});
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -207,7 +216,14 @@ namespace RestfulAspNetCore
             option.AddRedirect("^$", "swagger");
             app.UseRewriter(option);
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseHttpsRedirection();
             app.UseMvc();

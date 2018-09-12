@@ -21,9 +21,29 @@ namespace RestfulAspNetCore.Domain.Services
             return _userRepo.GetByEmail(email);
         }
 
+        public User GetByEmailAndRefreshToken(string email, string refreshToken)
+        {
+            return _userRepo.GetByEmailAndRefreshToken(email, refreshToken);
+        }
+
+        public User Add(User user)
+        {
+            return _userRepo.Add(user);
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        public User Update(User user)
+        {
+            return _userRepo.Update(user);
+        }
+
+        public void Remove(string email)
+        {
+            _userRepo.Remove(email);
         }
     }
 }

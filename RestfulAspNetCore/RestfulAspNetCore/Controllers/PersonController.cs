@@ -27,7 +27,7 @@ namespace RestfulAspNetCore.Services.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        [Authorize("Bearer")]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok(_personAppService.FindAll());

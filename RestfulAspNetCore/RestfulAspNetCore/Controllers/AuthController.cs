@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestfulAspNetCore.Application.Interfaces;
 using RestfulAspNetCore.Application.Model;
 using RestfulAspNetCore.Services.ErrorHandling;
@@ -18,11 +13,11 @@ namespace RestfulAspNetCore.Services.Controllers
     public class AuthController : Controller
     {
         //private IOptions<Audience> _settings;
-        private IUserAppService _userAppService;
+        private IAuthAppService _authAppService;
 
-        public AuthController(IUserAppService userAppService)
+        public AuthController(IAuthAppService authAppService)
         {
-            _userAppService = userAppService;
+            _authAppService = authAppService;
         }
 
 
@@ -31,32 +26,18 @@ namespace RestfulAspNetCore.Services.Controllers
         public IActionResult Post([FromBody]UserLoginModel loginModel)
         {
 
-            if (loginModel.Grant_type == "password")
-            {
-                //return new OkResult(DoPassword(parameters));
-                return Ok();
-            }
-            else if (loginModel.Grant_type == "refresh_token")
-            {
-                //return new OkObjectResult(DoRefreshToken(parameters));
-                return Ok();
-            }
-            else
-            {
-                // validar errorDetail
-                return new BadRequestObjectResult(new ErrorDetail
-                {
-                    Title = "",
-                    Status = 400,
-                    Detail = "!",
-                    InnerMessage = "",
-                    Instance = ""
-                });
-            }
+            var tokenResponse = _authAppService.Auth(loginModel);
 
+            if (tokenResponse != null)
+                return Ok(tokenResponse);
+
+            return BadRequest(new ErrorDetail
+            {
+                Title = "Authentication Failed",
+                Status = 400,
+                Detail = "User and/or Password invalid!"
+            });
         }
-
-
 
     }
 }
