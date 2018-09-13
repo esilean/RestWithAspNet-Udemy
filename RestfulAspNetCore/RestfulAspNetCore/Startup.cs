@@ -85,7 +85,7 @@ namespace RestfulAspNetCore
             });
 
             services.AddAutoMapper();
-            services.AddApiVersioning();
+            services.AddApiVersioning(o => o.ReportApiVersions = true);
 
             services.AddSwaggerGen(c =>
             {
@@ -97,6 +97,7 @@ namespace RestfulAspNetCore
             services.AddScoped<IUserAppService, UserAppService>();
             services.AddScoped<IPersonAppService, PersonAppService>();
             services.AddScoped<IBookAppService, BookAppService>();
+            services.AddScoped<IFileAppService, FileAppService>();
             //Domain
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPersonService, PersonService>();
@@ -239,7 +240,14 @@ namespace RestfulAspNetCore
 
             app.UseHttpsRedirection();
             //app.UseMvc();
-            app.UseMvcWithDefaultRoute();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "DefaultApi",
+                    template: "{controller=Values}/{id?}");
+            });
+
         }
     }
 }

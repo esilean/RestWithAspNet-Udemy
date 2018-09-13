@@ -1,10 +1,9 @@
-﻿using RestfulAspNetCore.Application.Model;
-using System;
+﻿using System;
 
 namespace RestfulAspNetCore.Application.Interfaces
 {
-    public interface IUserAppService : IDisposable
+    public interface IFileAppService : IDisposable
     {
-        UserModel Add(UserModel userModel);
+        byte[] GetPDFFile();
     }
 }

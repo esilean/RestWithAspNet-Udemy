@@ -32,44 +32,33 @@ namespace RestfulAspNetCore.Services.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        [Authorize]
         public IActionResult Get()
         {
             return Ok(_personAppService.FindAll());
         }
 
-        [HttpGet("Paging")]
-        [ProducesResponseType(200, Type = typeof(List<PersonModel>))]
-        [ProducesResponseType(204)]
+        //[HttpGet("paging")]
+        [HttpGet("paging")]
+        [ProducesResponseType(200, Type = typeof(PersonPageModel))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Paging(PagingParams pagingParams)
+        public IActionResult Paging([FromQuery] PagingParams pagingParams)
         {
             var persons = _personAppService.FindWithPageSearch(pagingParams);
-
-
-            var l = new LinkInfo
-            {
-                Href = _urlHelper.Link("Paging", new { PageNumber = pagingParams.PageNumber, PageSize = pagingParams.PageSize }),
-                Rel = "",
-                Method = ""
-            };
-
 
             Response.Headers.Add("X-Pagination", persons.GetHeader().ToJson());
 
             var personPageModel = new PersonPageModel
             {
                 Paging = persons.GetHeader(),
-                Links = PageLink<PersonModel>.GetLinks(_urlHelper, "Paging", persons),
-                Items = persons._list
+                Links = PageLink<PersonModel>.GetLinks(_urlHelper, "paging", persons),
+                Items = persons.List
             };
             return Ok(personPageModel);
         }
 
         [HttpGet("findbyname")]
         [ProducesResponseType(200, Type = typeof(List<PersonModel>))]
-        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         public IActionResult GetByName([FromQuery] string firstName, [FromQuery] string lastName)

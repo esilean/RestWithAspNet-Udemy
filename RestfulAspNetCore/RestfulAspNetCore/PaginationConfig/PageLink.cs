@@ -15,12 +15,12 @@ namespace RestfulAspNetCore.Services.PaginationConfig
             var links = new List<LinkInfo>();
 
             if (list._hasPreviousPage)
-                links.Add(CreateLink(urlHelper, routeName, list._previousPageNumber, list._pageSize, "previousPage", "GET"));
+                links.Add(CreateLink(urlHelper, routeName, list._previousPageNumber, list.PageSize, "previousPage", "GET"));
 
-            links.Add(CreateLink(urlHelper, routeName, list._pageNumber, list._pageSize, "self", "GET"));
+            links.Add(CreateLink(urlHelper, routeName, list.PageNumber, list.PageSize, "self", "GET"));
 
             if (list._hasNextPage)
-                links.Add(CreateLink(urlHelper, routeName, list._nextPageNumber, list._pageSize, "nextPage", "GET"));
+                links.Add(CreateLink(urlHelper, routeName, list._nextPageNumber, list.PageSize, "nextPage", "GET"));
 
             return links;
         }
@@ -29,7 +29,7 @@ namespace RestfulAspNetCore.Services.PaginationConfig
         {
             return new LinkInfo
             {
-                Href = urlHelper.Link(routeName, new { PageNumber = pageNumber, PageSize = pageSize }),
+                Href = urlHelper.Action(routeName, new { PageNumber = pageNumber, PageSize = pageSize }).ToLower(),
                 Rel = rel,
                 Method = method
             };

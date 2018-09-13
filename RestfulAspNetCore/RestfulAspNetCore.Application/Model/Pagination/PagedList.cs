@@ -7,23 +7,23 @@ namespace RestfulAspNetCore.Application.Model.Pagination
 {
     public class PagedList<T> where T : class
     {
-        public int _totalItems { get; }
-        public int _pageNumber { get; }
-        public int _pageSize { get; }
-        public List<T> _list { get; }
+        public int TotalItems { get; }
+        public int PageNumber { get; }
+        public int PageSize { get; }
+        public List<T> List { get; }
 
-        public int _totalPages => (int)Math.Ceiling(_totalItems / (double)_pageSize);
-        public bool _hasPreviousPage => _pageNumber > 1;
-        public bool _hasNextPage => _pageNumber < _totalPages;
-        public int _nextPageNumber => _hasNextPage ? _pageNumber + 1 : _totalPages;
-        public int _previousPageNumber => _hasPreviousPage ? _pageNumber - 1 : 1;
+        public int TotalPages => (int)Math.Ceiling(this.TotalItems / (double)this.PageSize);
+        public bool _hasPreviousPage => this.PageNumber > 1;
+        public bool _hasNextPage => this.PageNumber < this.TotalPages;
+        public int _nextPageNumber => _hasNextPage ? this.PageNumber + 1 : this.TotalPages;
+        public int _previousPageNumber => _hasPreviousPage ? this.PageNumber - 1 : 1;
 
         public PagedList(List<T> source, int pageNumber, int pageSize)
         {
-            _totalItems = source.Count();
-            _pageNumber = pageNumber;
-            _pageSize = pageSize;
-            _list = source
+            this.TotalItems = source.Count();
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
+            this.List = source
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToList();
@@ -31,7 +31,7 @@ namespace RestfulAspNetCore.Application.Model.Pagination
 
         public PagingHeader GetHeader()
         {
-            return new PagingHeader(_totalItems, _pageNumber, _pageSize, _totalPages);
+            return new PagingHeader(this.TotalItems, this.PageNumber, this.PageSize, this.TotalPages);
         }
     }
 }

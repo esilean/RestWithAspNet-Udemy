@@ -13,7 +13,7 @@ namespace RestfulAspNetCore.Services.Controllers
     public class AuthController : Controller
     {
         //private IOptions<Audience> _settings;
-        private IAuthAppService _authAppService;
+        private readonly IAuthAppService _authAppService;
 
         public AuthController(IAuthAppService authAppService)
         {
@@ -28,8 +28,7 @@ namespace RestfulAspNetCore.Services.Controllers
 
             var tokenResponse = _authAppService.Auth(loginModel);
 
-            if (tokenResponse != null)
-                return Ok(tokenResponse);
+            if (tokenResponse != null) return Ok(tokenResponse);
 
             return BadRequest(new ErrorDetail
             {

@@ -1,5 +1,7 @@
+drop table books
+
 CREATE TABLE `persons` (
-	`Id` int (10) AUTO_INCREMENT PRIMARY KEY,
+    `Id` int (10) AUTO_INCREMENT PRIMARY KEY,
     `FirstName` VARCHAR(50) not NULL,
     `LastName` VARCHAR(50) not NULL,
     `Address` VARCHAR(50) not NULL,
@@ -21,10 +23,9 @@ ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 CREATE TABLE IF NOT EXISTS `users` (
     `Email` varchar (100) NOT NULL,
-    `Password` varchar(100) not null,
-    `PasswordHash` varchar(100) not null,
-    `ClientId` varchar(100) not null,
-    `ClientSecret` varchar(32) not null,
+    `PasswordHash` varbinary(64) not null,
+    `PasswordSalt` varbinary(128) not null,
+    `ClientSecret` varbinary(32) not null,
     `RefreshToken` varchar(100) null,
     `Created` datetime(6) not null,
     `IsActive` bit not null,
