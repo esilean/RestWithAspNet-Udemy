@@ -2658,6 +2658,13 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.0.1916590": {
+        "type": "package",
+        "build": {
+          "build/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props": {},
+          "build/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets": {}
+        }
+      },
       "Microsoft.VisualStudio.Web.CodeGeneration/2.1.1": {
         "type": "package",
         "dependencies": {
@@ -7331,6 +7338,38 @@
         "runtime.json",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.0.1916590": {
+      "sha512": "ATgVprl2wbWCIV2q79OzRdNgM7HtS+GOcHvaKPGdPK5QMGXd7I5SxDCV/ZFe++vJUIGAj7zMz4F3vhS2dNHZkw==",
+      "type": "package",
+      "path": "microsoft.visualstudio.azure.containers.tools.targets/1.0.1916590",
+      "files": [
+        ".signature.p7s",
+        "build/Container.props",
+        "build/Container.targets",
+        "build/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props",
+        "build/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets",
+        "build/ToolsTarget.props",
+        "build/ToolsTarget.targets",
+        "microsoft.visualstudio.azure.containers.tools.targets.1.0.1916590.nupkg.sha512",
+        "microsoft.visualstudio.azure.containers.tools.targets.nuspec",
+        "tools/Microsoft.VisualStudio.Containers.Tools.Common.dll",
+        "tools/Microsoft.VisualStudio.Containers.Tools.Tasks.dll",
+        "tools/cs/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/de/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/es/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/fr/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/it/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/ja/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/ko/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/pl/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/pt-BR/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/ru/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/tr/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/utils/KillProcess.exe",
+        "tools/zh-Hans/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll",
+        "tools/zh-Hant/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll"
       ]
     },
     "Microsoft.VisualStudio.Web.CodeGeneration/2.1.1": {
@@ -12716,6 +12755,7 @@
       "Microsoft.AspNetCore.Mvc.Formatters.Xml >= 2.1.2",
       "Microsoft.AspNetCore.Mvc.Versioning >= 2.3.0",
       "Microsoft.NETCore.App >= 2.1.0",
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.0.1916590",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
       "MySql.Data >= 8.0.12",
       "RestfulAspNetCore.Application >= 1.0.0",
@@ -12724,38 +12764,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/leandrobevilaqua/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\leandro.bevilaqua\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
+      "projectUniqueName": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\RestfulAspNetCore.Services.csproj",
       "projectName": "RestfulAspNetCore.Services",
-      "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/RestfulAspNetCore.Services.csproj",
-      "packagesPath": "/Users/leandrobevilaqua/.nuget/packages/",
-      "outputPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore/obj",
+      "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\RestfulAspNetCore.Services.csproj",
+      "packagesPath": "C:\\Users\\leandro.bevilaqua\\.nuget\\packages\\",
+      "outputPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/leandrobevilaqua/.config/NuGet/NuGet.Config"
+        "C:\\Users\\leandro.bevilaqua\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Application/RestfulAspNetCore.Application.csproj": {
-              "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Application/RestfulAspNetCore.Application.csproj"
+            "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Application\\RestfulAspNetCore.Application.csproj": {
+              "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Application\\RestfulAspNetCore.Application.csproj"
             },
-            "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Data/RestfulAspNetCore.Data.csproj": {
-              "projectPath": "/Users/leandrobevilaqua/Desktop/ASPNetCore/RestWithAspNet-Udemy/RestfulAspNetCore/RestfulAspNetCore.Data/RestfulAspNetCore.Data.csproj"
+            "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Data\\RestfulAspNetCore.Data.csproj": {
+              "projectPath": "D:\\Projetos-Estudo\\RestWithAspNet-Udemy\\RestfulAspNetCore\\RestfulAspNetCore.Data\\RestfulAspNetCore.Data.csproj"
             }
           }
         }
@@ -12772,33 +12814,37 @@
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.1.1"
+            "version": "[2.1.1, )",
+            "autoReferenced": true
           },
           "Microsoft.AspNetCore.Mvc.Formatters.Xml": {
             "target": "Package",
-            "version": "2.1.2"
+            "version": "[2.1.2, )"
           },
           "Microsoft.AspNetCore.Mvc.Versioning": {
             "target": "Package",
-            "version": "2.3.0"
+            "version": "[2.3.0, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.1.0, )",
+            "autoReferenced": true
+          },
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+            "target": "Package",
+            "version": "[1.0.1916590, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
-            "version": "2.1.1"
+            "version": "[2.1.1, )"
           },
           "MySql.Data": {
             "target": "Package",
-            "version": "8.0.12"
+            "version": "[8.0.12, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
-            "version": "3.0.0"
-          },
-          "Microsoft.NETCore.App": {
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "2.1.0",
-            "autoReferenced": true
+            "version": "[3.0.0, )"
           }
         },
         "imports": [

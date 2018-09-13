@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -31,13 +32,38 @@ namespace RestfulAspNetCore.Services.Controllers
         public IActionResult Get()
         {
             var buffer = _fileAppService.GetPDFFile();
-            if(buffer != null){
-                HttpContext.Response.ContentType = "application/pdf";
-                HttpContext.Response.Headers.Add("content-length", buffer.Length.ToString());
-                HttpContext.Response.Body.Write(buffer, 0, buffer.Length);
-            }
+            //if(buffer != null){
+            //    HttpContext.Response.ContentType = "application/pdf";
+            //    HttpContext.Response.Headers.
+            //    HttpContext.Response.Headers.Add("content-length", buffer.Length.ToString());
+            //    HttpContext.Response.Body.Write(buffer, 0, buffer.Length);
+            //}
+            return File(buffer, GetContentType("xxx.pdf"), "pdf");
+        }
 
-            return new ContentResult();
+        private string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.ms-word"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".gif", "image/gif"},
+                {".csv", "text/csv"}
+            };
         }
     }
 }
