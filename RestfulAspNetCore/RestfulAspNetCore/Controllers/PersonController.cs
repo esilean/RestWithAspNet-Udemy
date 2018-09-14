@@ -32,8 +32,12 @@ namespace RestfulAspNetCore.Services.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize]
         public IActionResult Get()
         {
+            var userIdent = User.Identity;
+
+
             return Ok(_personAppService.FindAll());
         }
 
